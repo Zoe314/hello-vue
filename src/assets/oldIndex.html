@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ceshi</title>
+</head>
+
+<body>
+    <button id="btn">按钮</button>
+<div id="da">
+
+</div>
+<script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0"></script>
+<script> var vConsole = new VConsole();</script>
+    <script type="module">
+        import bridge from './bridge.js'
+        let data = []
+        document.getElementById('btn').onclick = function addUser() {
+            // this.showTreeSelect = true
+            // 定义传参
+            let params = {
+                users: data ? data : []
+                // users:[{
+                //   lenovoId: '10179665186',
+                //   userName: '侯红菲'
+                // },{
+                //   lenovoId: '10164875396',
+                //   userName: '赵祎波'
+                // }]
+            }
+            bridge.goSelectUser(params, (list) => {
+                treeSelect(list)
+            })
+        }
+        function treeSelect(list) {
+            alert('00000')
+            alert('ceshi测试',typeof list,list)
+            data =JSON.parse(list).map((item) => {               
+                alert(JSON.stringify(item))
+                return {
+                  lenovoId: item.lenovoId,
+                  userName: item.name
+                }
+                alert(111)
+            })
+            alert('55555')
+            console.log(JSON.stringify(data))
+        }
+        // 我给你传的对象：
+        // let params={
+        //     users:[{
+        //           lenovoId: '10179665186',
+        //           userName: '侯红菲'
+        //         },{
+        //           lenovoId: '10164875396',
+        //           userName: '赵祎波'
+        //         }]
+        // } 
+    </script>
+</body>
+
+</html>

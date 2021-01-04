@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="toChat">toChat</button>
+    <button id="selectUser">selectUser</button>
+</body>
+
+</html>
+<script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.2.0"></script>
+<script> var vConsole = new VConsole();</script>
+<script>
+    let data = [];
+    document.getElementById("toChat").onclick = () => {
+        toChat({ groupId: "5f9913f1953b8b14a7988fcd" })
+    }
+    document.getElementById("selectUser").onclick = () => {
+        selectUser()
+    }
+
+    // 跳转到会议室
+    const toChat = (params) => {
+        try {
+            callHandler('toChat', params, val => {
+                console.log(val)
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const selectUser = () => {
+        let params = {
+            users: data
+        }
+        registerHandler("selectUserResult", val => {
+            data = JSON.parse(val).map(item=>{
+                return {lenovoId:item.lenovoId,userName:item.name}})
+            console.log("selectUserResult", data)
+        })
+        callHandler("selectUser", params)
+        console.log("selectUser")
+    }
+
+    let u = navigator.userAgent
+    let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1 // android终端
+    let isiOS = u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios终端
+
+    const registerHandler = (name, callback) => {
+        if (isiOS) {
+            setupWebViewJavascriptBridge((bridge) => {
+                bridge.registerHandler(name, callback)
+            })
+        } else if (isAndroid) {
+            window[name] = callback
+        }
+    }
+    const callHandler = (name, parmas, callback) => {
+        // console.log(`------- 发送 Native -- ${name}`, parmas);
+        if (isiOS) {
+            setupWebViewJavascriptBridge((bridge) => {
+                bridge.callHandler(name, parmas, callback)
+            })
+        } else if (isAndroid) {
+            if (window.android && window.android[name]) {
+                if (!Array.isArray(parmas) && typeof parmas === 'object') {
+                    parmas = JSON.stringify(parmas)
+                }
+                callback(window.android[name](parmas))
+            }
+        }
+    }
+
+    const setupWebViewJavascriptBridge = (callback) => {
+        if (window.WebViewJavascriptBridge) { return callback(window.WebViewJavascriptBridge) }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback) }
+        window.WVJBCallbacks = [callback]
+        var WVJBIframe = document.createElement('iframe')
+        WVJBIframe.style.display = 'none'
+        WVJBIframe.src = 'https://__bridge_loaded__'
+        document.documentElement.appendChild(WVJBIframe)
+        setTimeout(() => { document.documentElement.removeChild(WVJBIframe) }, 0)
+    }
+</script>
