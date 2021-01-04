@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue遍历-v-for</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 遍历数组： 第一种，不需要索引值的遍历 -->
+        <ul>
+            <li v-for="item in movies">{{item}}</li>
+        </ul>
+        <!-- 第二种，使用索引（下标值）的遍历数组 -->
+        <ul>
+            <li v-for="(item , index) in movies">
+                {{index+1}} , {{item}}
+            </li>
+        </ul>
+        <!-- 
+            遍历对象 
+            可以直接这么取，但是如果属性值太多，这种方式不太合适 
+            <ul>
+                <li>{{info.name}}</li>
+                <li>{{info.age}}</li>
+                <li>{{info.height}}</li>
+            </ul>
+        -->
+
+        <!-- 1、 v-for遍历对象过程中，如果只获取一个值，这个值是value -->
+        <ul>
+            <li v-for="item in info">{{item}}</li>
+        </ul>
+        <!-- 2、获取value和key的格式 (value,key) -->
+        <ul>
+            <li v-for="(value,key) in info">{{value}} -- {{key}}</li>
+        </ul>
+        <!-- 3、获取value,key和index的格式 (value,key,index)  遍历对象用index用的不多-->
+        <ul>
+            <li v-for="(value,key,index) in info">{{value}} -- {{key}} --{{index}}</li>
+        </ul>
+
+       
+    </div>
+
+    <script>
+        // 方法调用多次时，会执行多次
+        // 但计算属性有缓存，计算属性相关的值若不发生改变，计算属性只会执行一次，如果修改值的话，也是只执行一次。
+        const app = new Vue({
+            el: '#app',
+            data: {
+                movies: [
+                    '天外飞仙', '十面埋伏', '这个杀手不太冷', '火影忍者'
+                ],
+                info: {
+                    name: 'xixi',
+                    age: 18,
+                    height: '1.66'
+                },
+               
+            },
+
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>切换变颜色</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+    .active{
+        color: red;
+    }
+</style>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <!-- 直接写,会全部加上 -->
+            <!-- <li v-for="item in movies" class="active">
+                {{item}}
+            </li> -->
+            <!-- active为true 所有的都是active,
+            <li v-for="(item,index) in movies" :class="{active:true}" :key="item">
+                {{item}}
+            </li> -->
+            <!-- 所以需定义一个值，通过对比来显示点击的某一项为红色，currentIndex 这个值，初始化为0 -->
+            <li 
+                v-for="(item,index) in movies" 
+                :class="{active:currentIndex===index}" 
+                :key="item"
+                @click="click(index)"
+            >
+               {{index}}--{{item}}
+            </li>
+            <!-- <li :class="{active: 0=== currentIndex}"></li>
+            <li :class="{active: 1=== currentIndex}"></li>
+            <li :class="{active: 2=== currentIndex}"></li>
+            <li :class="{active: 3=== currentIndex}"></li> -->
+        </ul>
+
+    </div>
+
+
+    <script>
+        const app = new Vue({
+            el:'#app',
+            data:{
+                movies:[
+                    '大海','蜡笔小新','功夫','十面埋伏'
+                ],
+                currentIndex:0
+            },
+            methods:{
+                click(index){
+                    // 点击的时候，将index传过来，并且修改currentIndex的值，为index，这项就会显示出红色样式
+                    this.currentIndex = index
+                }
+            }
+        })
+    </script>
+</body>
+</html>

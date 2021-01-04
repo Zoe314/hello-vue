@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue组件化基本使用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 3、使用组件 可写多次，调用多次，可供他人使用，可移植性。使用组件 在页面中使用  -->
+        <con></con>
+        <con2></con2>
+    </div>
+    <!-- 分离写法 1：script标签，类型必须是text/x-template -->
+    <script type="text/x-template" id="cpn">
+      <div>
+        <h1>分离写法一：标题</h1>
+        <p>分离写法一：script标签，type是：text/x-template我是内容</p>
+      </div>
+    </script>
+    <!-- 分离写法2、template标签，给个ID，绑定使用即可 -->
+    <template id="cpn2">
+        <div>
+            <h1>分离写法2：标题</h1>
+            <p>分离写法2：我是内容-template 标签，写个ID，对应即可</p>
+          </div>
+    </template>
+
+    <script>
+        // 注册一个全局组件
+
+        Vue.component('con', {
+            template: '#cpn'
+        })
+        Vue.component('con2', {
+            template: '#cpn2'
+        })
+
+        // 实例可看做为一个组件，顶级的组件 ，被称为root组件（根组件）
+        let app = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+
+</html>

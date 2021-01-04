@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件中是否可以访问data中数据？不可以！</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+
+        <!-- <p>{{msg}}</p> -->
+
+        <con></con>
+    </div>
+    <template id="con">
+        <div>
+            <h1>加油加油啊---{{title}}</h1>
+            <span>我是最棒的，我是最棒的！</span>
+            <!--
+            ，若使用会报错：
+            vue.js:634 [Vue warn]: Property or method "msg" is not defined 
+            on the instance but referenced during render.
+             Make sure that this property is reactive, either
+              in the data option, or for class-based components,
+               by initializing the property. See:
+                https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.
+
+                found in
+                <Con>
+                    <Root>
+                --->
+                <!-- <span>{{msg}}</span> -->
+                <p>
+                    在组件中，不能使用实例中的data数据.而且，即使可以访问，把所有数据都放到
+                    实例中会很臃肿。
+                </p>   
+                <h3>Vue组件有自己保存数据的地方=> data(){return {}}</h3>
+        </div>
+    </template>
+
+    <script>
+        Vue.component('con', {
+            template: '#con',
+            //直接这么写会报错：vue.js:634 [Vue warn]: The "data" option should be a function 
+            // that returns a per-instance value in component definitions.
+            // data:{
+            //     title:'菲菲加加加油'  
+            // }
+            // 这是正确的
+            data(){
+                return{
+                    title:'菲菲加油'
+                }
+            },
+            methods:{
+
+            },
+            components:{
+                
+            }
+
+        })
+        const app = new Vue({
+            el: '#app',
+            data: {
+                msg: '我是最棒的女孩！'
+            }
+        })
+    </script>
+</body>
+
+</html>

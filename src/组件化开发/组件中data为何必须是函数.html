@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件中的data为何写法不同？是函数？</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <h2>原因：因组件的复用，每一个组件实例都需要有自己的状态，是不能相互影响的。</h2>
+        <!-- <p>{{msg}}</p> -->
+        <!-- 组件实例，有属于自己的data -->
+        <con></con>
+        <con></con>
+        <con></con>
+    </div>
+    <template id="con">
+        <div>
+            <h2>数量：{{counter}}</h2>
+            <button @click="add">+</button>
+            <button @click="jian">-</button>
+        </div>
+    </template>
+
+    <script>
+        const commonObj = {
+            counter:0
+        }
+        Vue.component('con', {
+            template: '#con', 
+            data() {
+                // 这是正确的,组件复用，需要各自有属于自己的内存空间，保存实例，
+                // 而非同一个，这是各自有各自内存写法。同一个会产生连锁反应
+                
+                // 应当这么写：
+                return {
+                    counter: 0
+                }
+                // 这是指向同一个对象地址 （根据实际应用场景而定，一般来说，写上面的方式）
+                // return commonObj
+            },
+            // 同样有自己
+            methods: {
+                add() {
+                    this.counter++
+                },
+                jian() {
+                    this.counter--
+                },
+            }
+
+        })
+        const app = new Vue({
+            el: '#app',
+
+        })
+    </script>
+</body>
+
+</html>
+<!--
+     组件中的data为什么是一个函数，而非一个对象?原理同下方js代码一样
+    组件，重要的是可复用，多人可能共同使用一个组件，但每个组件中，不是每个操作都一样，
+    是单独的个体，不希望修改全部的值，所以是一个函数
+-->
+<!-- <script>
+    function abc() {
+        // 在自己栈空间创建的都是新的东西，
+        return {
+            name: 'aaa',
+            age: 12
+        }
+    }
+    // 所以obj1/obj2/obj3调用的不是同一个东西
+    // 指向3个不同的内存地址，也就是堆地址，因为不同，修改其中一个，其他的不会改变。
+    let obj1 = abc();
+    let obj2 = abc();
+    let obj3 = abc();
+    obj1.name = '小敏',
+    console.log(obj2.name, obj3.name) //aaa aaa
+
+    // 如果想指向同一个对象，可以这么写
+    // 定义一个对象，地址是000FFFAAA
+    const o = {
+       name:'abc2',
+       age:22
+    }
+    function abc2(){
+        return  o  //在此返回的o对象，就是本质返回的内存地址
+    }
+    // 就是讲o的对象堆地址，赋值给o1,o2,o3,他们指向同一个堆地址，在修改的时候，全局都会改
+    let o1 = abc2();  //指向abc2的返回值，也就是o的对象地址 000FFFAAA
+    let o2 = abc2();//指向000FFFAAA
+    let o3 = abc2();//指向000FFFAAA
+    o1.name = '小敏'
+    console.log(o2.name,o3.name); //小敏 小敏
+</script> -->

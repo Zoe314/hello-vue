@@ -1,0 +1,363 @@
+.certificationContainer {
+
+    .contentBox {
+      border-radius: 8px;
+  
+      .bg-purple {
+        margin-bottom: 33px;
+  
+        span{
+          font-family: PingFangSC;
+        }
+        .center{
+          margin-right:42px;
+        }
+        .btn{
+          cursor: pointer;
+          font-size:13px;
+          font-family:PingFangSC;
+          color:rgba(162,159,179,1); 
+        }
+        .isActive{
+          color: #f7f6fd;
+        }
+        .alreadbtn{
+          margin-left: 25px;
+        }
+        #dot{
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #F05271;
+          margin-bottom: 3px;
+          display: inline-block;
+        }
+        // 企业认证信息
+        .certificationBox {
+          @include flex(column, center, center);
+          height: 638px;
+          background: rgba(46, 44, 61, 1);
+          box-shadow: 0px 2px 4px 0px rgba(26, 31, 41, 0.35);
+          border-radius: 8px;
+          margin-top: 13px;
+          margin-right: 30px;
+          overflow-x: hidden;
+          overflow-y: scroll;
+          // 公司图片
+          .officePic {
+            img {
+              width: 100px;
+              height: 100px;
+              border-radius: 50%;
+              margin-bottom: 30px;
+            }
+          }
+  
+          // 公司名称
+          .officeName {
+            width: 370px;
+            overflow: hidden;
+            text-align: center;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            span {
+              height: 28px;
+              @extend %font;
+              font-size: 20px;
+              font-weight: 500;
+              line-height: 28px;
+            }
+          }
+  
+          // 认证信息
+          .certificationMsg {
+            width: 100%;
+            margin-top: 51px;
+            .msgItem {
+              display: flex;
+              align-items: center;
+              .itemName {
+                padding-left:60px ;
+                flex: 1;
+                height: 50px;
+                line-height: 50px;              
+                span {
+                  font-family: PingFangSC;
+                  @extend %font;
+                  color: rgba(162, 159, 179, 1);
+                }
+              }
+  
+              .itemValue {
+                flex: 1;
+                height: 50px;
+                padding-right:27px ;
+                line-height: 50px;
+                
+                .sum {
+                  @extend %font;
+                  height: 22px;
+                  font-family: PingFangSC;
+                  color: rgba(255, 142, 13, 1);
+                  line-height: 22px;
+                }
+  
+                .notActive {
+                  height: 22px;
+                  @extend %font;
+                  color: #F05271;
+                  line-height: 22px;
+                  font-family: PingFangSC;
+                }
+  
+                span {
+                  @extend %font;            
+                  font-family: PingFangSC;
+                  line-height: 22px;
+                }
+  
+                .apply{ //申请认证
+                  border:1px solid rgba(77,124,254,1);
+                  @extend %font;           
+                  color:rgba(77,124,254,1);
+                  font-size: 13px;
+                  font-family: PingFangSC;
+                  color: #4D7CFE;
+                  line-height: 18px;
+                  padding: 2px 3px;
+                  margin: 0;
+                }
+                .alApply{  //已认证
+                  height: 15px;
+                  width: 46px;
+                }
+                .under_review {  //审核中
+                  width:72px;
+                  height: 23px;
+                  background: rgba(216, 216, 216, 0);
+                  border-radius: 3px;
+                  border: 1px solid rgba(68, 190, 144, 1);
+                  @extend %font;
+                  font-size:13px;
+                  color:rgba(68,190,144,1);
+                  padding: 2px 5px;
+                }  
+                .apply_failed{//未通过  
+                  vertical-align: middle;
+                  text-align: center;
+                  background:rgba(216,216,216,0);
+                  border-radius:3px;        
+                  cursor: pointer;         
+                  border:1px solid rgba(162,159,179,1);                 
+                  height:23px;
+                  display: inline-block;
+                  @extend %font;
+                    width:60px;
+                  font-size:13px;
+                  color:rgba(162,159,179,1);
+                }   
+                
+                .itAdminListBox {  //it管理员
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-between;
+                  margin-bottom: 20px;
+                  
+                }
+              }
+            }
+          }
+        }
+  
+        // 消息中心
+        .messageBox {
+          background: rgba(46, 44, 61, 1);
+          box-shadow: 0px 2px 4px 0px rgba(26, 31, 41, 0.35);
+          border-radius: 8px;
+          margin-top: 13px;
+          height: 100px;
+        }
+  
+        // 搜索联想智慧办公
+        .searchLenovoOfficeBox {
+          background: rgba(46, 44, 61, 1);
+          box-shadow: 0px 2px 4px 0px rgba(26, 31, 41, 0.35);
+          border-radius: 8px;
+          margin-top: 13px;
+          height: 183px;
+  
+          .officeList {
+            @include wh(100%, 100%);
+            padding: 30px;
+            @include flex(row, space-around);
+            .searchOfficeItem {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .itemLogos {              
+                  width: 54px;
+                  height: 54px;
+                img {
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 4px;
+                }
+              }
+  
+              .itemName {
+                margin: 13px 0px;
+                span {
+                  @extend %font;
+                  font-size: 13px;
+                  font-family: PingFangSC;
+                  color: rgba(255, 255, 255, 1);
+                  // line-height: 17px;
+                }
+              }
+  
+              .itemLink {
+                // flex: 1;
+                .links {
+                  width: 53px;
+                  font-size: 13px;
+                  font-family: PingFangSC;          
+                  color: #FFFFFF;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+  
+        // 快速入口
+        .fastEntryBox {
+          background: rgba(46, 44, 61, 1);
+          box-shadow: 0px 2px 4px 0px rgba(26, 31, 41, 0.35);
+          border-radius: 8px;
+          margin-top: 13px;
+          height: 220px;
+  
+          .entryList {
+            @include wh(100%, 100%);
+            // padding: 20px 30px;
+            padding: 14px 24px;
+            @include flex(row, space-between, center);
+            flex-wrap: wrap;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            .el-button+.el-button {
+              margin-left: 0px;
+            }
+  
+            .entryBtnBox {
+              @include flex(row, center, center);
+              width: 238px;
+              height: 78px;
+              border-radius: 8px;
+              border: 1px solid rgba(87, 86, 102, 1);
+              
+              .entryLogos {
+                width: 46px;
+                height: 46px;
+                margin-right: 10px;
+                img {
+                  width: 46px;
+                  height: 46px;
+                }
+              }
+              .entryLogos2 {
+                width:42px;
+                height:42px;
+                margin-right: 10px;
+  
+                img {
+                  width: 100%;
+                  height: 100%;
+                }
+  
+              }
+  
+              .entryLink {
+                width: 118px;
+                height: 18px;
+                line-height: 18px;
+                @include flex(column, center, flex-start);
+                p {
+                  font-size: 13px;
+                  @extend %font;                
+                  color: #F7F6FD;
+                }
+                p:nth-child(2){
+                  margin-top: 4px;
+                  color: #A29FB3;
+                }
+              }
+              &:hover{
+                border:1px solid #4D7CFE;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .itItem{
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    .itName{
+      width: 62px;
+      display: inline-block; 
+      font-family: PingFangSC;
+      color: #F7F6FD;                  
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .delItAdmin{
+      color: #F05271;
+      cursor: pointer;
+      display: block;
+      // margin: 0 10px 0 -4px;
+      margin: 0 18px 0 2px;
+    }
+  }
+  .subscribe {
+    font-size: 15px;
+    color: #4D7CFE !important;
+  }
+  /deep/.base-dialog--header-close{
+    background: none !important;
+    position: absolute;
+    top: 0px;
+    right: 30px;
+    font-size: 30px !important;
+    color: #4E4D5C;
+  }
+  /deep/.base-dialog--header-close:hover{
+    color: #fff;
+  }
+  .subscribe:hover {
+    text-decoration: underline !important;
+    cursor: pointer;
+  }
+  .engineer_info{
+    span{
+      font-size: 16px !important;
+    }
+    p{
+      margin-right: 18px;   
+    }
+    span:nth-child(2){
+       color: #F05271 !important;
+       cursor: pointer;
+       margin: 0 18px;
+    }
+  }
+  .readBind{
+    margin-bottom: 30px;
+    margin-top:10px;
+  }
+  
+  
+  

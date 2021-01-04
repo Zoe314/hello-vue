@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1、基本方式 书写繁琐，不推荐，一般不使用 -->
+        <h2>{{firstName}} {{lastName}}</h2>
+        <!-- 2、methods方式 当写多个方法调用时，这个getFullName调用了多次，可解开注释看打印值 -->
+        <!-- <h2>
+            {{getFullName()}}
+        </h2>
+        <h2>
+            {{getFullName()}}
+        </h2>
+        <h2>
+            {{getFullName()}}
+        </h2>
+        <h2>
+            {{getFullName()}}
+        </h2> -->
+        <!-- 3、计算属性 当有多个时，
+            这个fullName计算属性会调用一次，
+            因为有缓存，当修改值后，计算属性也会只调用一次-->
+        <h2>
+            {{fullName}}
+        </h2>
+        <!-- <h2>
+            {{fullName}}
+        </h2>
+        <h2>
+            {{fullName}}
+        </h2>
+        <h2>
+            {{fullName}}
+        </h2> -->
+        <button @click="change()">点击通过计算属性改名字</button>
+    </div>
+
+    <script>
+        // 方法调用多次时，会执行多次
+        // 但计算属性有缓存，计算属性相关的值若不发生改变，计算属性只会执行一次，如果修改值的话，也是只执行一次。
+        const app = new Vue({
+            el: '#app',
+            data: {
+                firstName: 'li',
+                lastName: 'ming'
+            },
+            computed: {
+                fullName: {
+                    get: function () {
+                        console.log('get方法调用');
+                        console.log('fullName的计算属性调用方式')
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    set: function (newValue) {
+                        console.log('set调用', newValue);
+                        const name = newValue.split(' ');
+                        this.firstName = name[0];
+                        this.lastName = name[1];
+                    }
+                }
+            },
+            methods: {
+                change() {
+                    this.fullName = 'fan chengcheng';
+                },
+                getFullName() {
+                    console.log('getFullName方法调用')
+                    return this.firstName + ' ' + this.lastName;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

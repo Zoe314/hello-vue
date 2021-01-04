@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue组件注册语法糖</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <con></con>
+        <con2></con2>
+    </div>
+
+
+    <script>
+        // 全局组件注册的语法糖
+        // 1、创建组件构造器
+        // 内部也是使用这个Vue.extend()
+        // const con = Vue.extend()
+
+        // 2、注册组件(之前的方式)
+        // Vue.component('con',con);
+        // 语法糖直接这么写。注册全局组件语法糖
+        Vue.component('con', {
+            template: `
+                <div>
+                <h2>你好</h2>
+                <p>全局组件--内容内容内推</p>
+               </div>` //模板字符串，可换行
+        });
+
+
+        // 实例可看做为一个组件，顶级的组件 ，被称为root组件（根组件）
+        let app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {},
+            // 局部组件的语法糖  直接讲对象写成这样
+            components: {
+                'con2': {
+                    template: `
+                <div>
+                <h2>每天好心情</h2>
+                <p>局部组件---内容内容内推</p>
+               </div>`
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

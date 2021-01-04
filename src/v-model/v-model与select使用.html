@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 选择单个 -->
+        <select name="furits" id="" v-model="fruit">
+            <option value="苹果">苹果</option>
+            <option value="芒果">芒果</option>
+            <option value="百香果">百香果</option>
+            <option value="榴莲">榴莲</option>
+        </select>
+        <h3>选择的水果：{{fruit}}</h3>
+        <!-- 选择多个 加multiple -->
+        <select name="furits" v-model="fruits" multiple>
+            <option value="苹果">苹果</option>
+            <option value="芒果">芒果</option>
+            <option value="百香果">百香果</option>
+            <option value="榴莲">榴莲</option>
+        </select>
+        <h3>选择的水果：{{fruits}}</h3>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                fruit:'苹果',
+                fruits:[]
+            }
+
+        })
+    </script>
+</body>
+
+</html>

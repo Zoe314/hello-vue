@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1、checkbox单选框
+        <label for="agree">
+            <input type="checkbox" id="agree" v-model="isAgree">同意协议
+            <h2>您选择的是:{{isAgree}}</h2>
+            <button :disabled="!isAgree">下一步</button>
+        </label> -->
+        <!-- 2、CheckBox的多选框 -->
+        <input type="checkbox" v-model="hobies" value="篮球">篮球
+        <input type="checkbox" v-model="hobies" value="乒乓球">乒乓球
+        <input type="checkbox" v-model="hobies" value="足球">足球
+        <input type="checkbox" v-model="hobies" value="棒球">棒球
+        <h3>所选的爱好是：{{hobies}}</h3>
+        <!-- 这个用的比较多  值绑定，就是v-bind在input中的使用-->
+        <label v-for="item in orignHobies" :for="item">
+            <input type="checkbox" :id="item" v-model="hobies" :value="item">{{item}}
+        </label>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                // 可以给个初始值
+                isAgree: false,  //布尔值
+                hobies:[],   //多选框
+                orignHobies:['乒乓球','板球','棒球','高尔夫球','羽毛球','网球','保龄球']
+            }
+        })
+    </script>
+</body>
+
+</html>

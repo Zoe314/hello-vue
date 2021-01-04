@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>增强写法</title>
+</head>
+<body>
+    <script>
+        // 1、属性的增强写法
+        const name = 'lili';
+        const age = 18;
+        const height = 1.8;
+        // ES5的写法
+        // const obj = {
+        //     name:name,
+        //     age:age,
+        //     height:height,
+        // }
+        // ES6 写法
+        const obj ={
+            name,age,height
+        }
+        console.log(obj);
+
+        // 2、函数的增强写法
+        // ES5的写法
+        // const obj2 = {
+        //     run:function(){},
+        //     go:function(){}
+        // }
+        // ES6写法
+        const obj2 = {
+            run(){},
+            go(){}
+        }
+    </script>
+</body>
+</html>

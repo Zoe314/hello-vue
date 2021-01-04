@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- 使用name，在向后台传参时，name作为key值传递 -->
+        <!-- <label for="male">
+            <input type="radio" name="sex" id="male">男
+        </label>
+        <label for="female">
+            <input type="radio" name="sex" id="female">女
+        </label> -->
+        <!-- 可以使用v-model绑定这个值，不需要name -->
+        <label for="male">
+            <input type="radio" v-model="sex" id="male" value="男">男
+        </label>
+        <label for="female">
+            <input type="radio" v-model="sex" id="female" value="女">女
+        </label>
+        <h3>您选择的性别是：{{sex}}</h3>
+    </div>
+
+    <script>
+        // 方法调用多次时，会执行多次
+        // 但计算属性有缓存，计算属性相关的值若不发生改变，计算属性只会执行一次，如果修改值的话，也是只执行一次。
+        const app = new Vue({
+            el: '#app',
+            data: {
+                // 可以给个初始值
+                sex: '男',
+            }
+        })
+    </script>
+</body>
+
+</html>

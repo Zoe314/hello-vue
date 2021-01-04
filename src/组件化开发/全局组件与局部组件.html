@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue组件化基本使用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 3、使用组件 可写多次，调用多次，可供他人使用，可移植性。使用组件 在页面中使用  -->
+        <con></con>
+    </div>
+    <hr>
+
+    <div id="app2">
+        app2第二个实例
+        <con></con>
+    </div>
+    <script>
+        // 1、创建组件构造器对象
+        const construtor = Vue.extend({
+            template: `
+                <div>
+                <h2>你好</h2>
+                <p>内容内容内推</p>
+               </div>` //模板字符串，可换行
+        })
+
+        // 2、注册组件。写法是全局组件（可在多个Vue实例下使用）
+        // Vue.computent(使用组件的标签名，组件构造器)
+        // Vue.component('con',construtor)
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {},
+            components: { //局部组件 开发中局部组件使用多些
+                // con:使用组件时的标签名；construtor:组件构造器
+                con: construtor
+            }
+        })
+
+        let app2 = new Vue({
+            el: '#app2',
+            data: {
+
+            },
+            methods: {},
+            // components: { //局部组件  ，以内这个注释了，所以html中，只有一个显示内容
+            //     con: construtor
+            // }
+        })
+    </script>
+</body>
+
+</html>

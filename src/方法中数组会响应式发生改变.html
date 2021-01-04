@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组方法中，数据会响应式</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in letters">{{item}}</li>
+        </ul>
+        <button @click="btnClick">点击修改数组</button>
+    </div>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                letters: [
+                    'a', 'b', 'c', 'd'
+                ]
+            },
+            methods: {
+                btnClick() {
+                    // 有响应式的数组的方法
+                    // 1、push方法  可以插入一个，也可以多个
+                    // this.letters.push('aaa');
+                    // this.letters.push('aa','bb','cc');
+
+                    // 2、pop方法 删除数组中最后一个元素
+                    // this.letters.pop();
+
+                    // 3、shift方法 删除数组中第一个元素
+                    // this.letters.shift();
+
+                    // 4、unshift方法 在数组的第一个元素前追加元素,也可以传多个值
+                    // this.letters.unshift('aaa');
+                    // this.letters.unshift('aa','bb','cc');
+                    // this.letters.unshift()  //Array.unshift(...items: T[]): number
+
+                    // 5、splice() 
+                    //  => 作用比较多，可以删除元素、插入元素、可以替换
+                    //  有三个参数，start 是索引位置，从哪里开始
+                    // =>删除元素：第二个参数传入要删除几个元素(若只传索引，删除第一个元素后的所有元素)
+                    //就是删除从索引开始的2个元素，
+                    // this.letters.splice(1,2),                    
+                    // this.letters.splice(1);
+                    // let start = 1;
+                    // this.letters.splice(start, this.letters.length - 1)
+                    // =>替换元素：第二个参数是要替换元素的个数，往后的参数为用来替换前面的元素
+                    // this.letters.splice(1,3,'m','n','l');
+                    // =>插入元素：第二个参数传入0，后面跟上要插入的元素
+                    // this.letters.splice(1,0,'o','p','q');
+
+                    // 6、sort() 排序
+                    // this.letters.sort()
+
+                    // 7、reverse()  倒序
+                    // this.letters.reverse()
+
+                    //没有响应式的数组方法========================华丽分割线
+                    //注意：通过索引值修改数组中的元素，不是响应式，数据发生改变，但页面不会改变
+                    // this.letters[0]='oooo';
+                    // 若真有这样的需求，想改第一个索引为0 的值，A、可以使用splice(),B、也可以使用Vue.set
+                    // this.letters.splice(0,1,'bbbb');
+                    // Vue.set( 要修改的对象，索引值，修改后的值 )
+                    Vue.set(this.letters, 0, 'bbb')
+                }
+            }
+        })
+
+        // 传参数，多个时，可以使用... 展开运算符，代表多个参数
+        // 因为vue中使用的数组方法，如push,unshift,都使用的...item定义，所以可以传多个参数
+        // function sum (num1,num2,num3){
+        //     return num1+num2+num3;
+        // }
+        // sum(1,2,3);
+        // function sum2 (...num){
+        //     // 多个参数
+        //     console.log(num)  //[2,3,4,5]
+        // }
+        // sum2(2,3,4,5)
+
+        // // 数组的方法：
+        // let a  = ['a','b','c','d'];
+        // console.log(a.pop()) //d  返回删除的元素（a的最后一个元素）
+        // console.log(a)   // ["a", "b", "c"]
+        // console.log(a.push('y'))  //4  返回长度 在a的最后一个元素位置添加
+        // console.log(a.unshift('p'));  // 5 返回长度，在a的第一个元素前添加
+        // console.log(a)  //["p", "a", "b", "c", "d"]
+        // console.log(a.shift())   // p 返回要删除的元素 a的第一个元素
+        // console.log(a.slice(1))  //["b", "c", "d"] 返回截取第一个元素后的值
+        // console.log(a.slice(1,2))  //["b"] 返回截取元素后的值
+        // console.log(a)  //["a", "b", "c", "y"]
+        // console.log(a.splice(2,1))   // ["c"]
+        // console.log(a.splice(1,0,'aa','bb'))  //[]
+        // console.log(a)  //["a", "aa", "bb", "b", "y"]
+    </script>
+</body>
+
+</html>

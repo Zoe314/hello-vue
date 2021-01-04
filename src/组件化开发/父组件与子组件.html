@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue组件化基本使用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 3、使用组件 可写多次，调用多次，可供他人使用，可移植性。使用组件 在页面中使用  -->
+        <con2></con2>
+
+        <!-- 在实例中，没有注册con1，但是con2中注册了，使用会出来吗？
+            不会，会报错，[Vue warn]: Unknown custom element: <con1> - did you register the component correctly? For recursive components, make sure to provide the "name" option.
+
+(found in <Root>)未知组件。
+        
+    如果想在app实例中使用con1,写成全局组件或者在app实例中注册components=>con1:con1
+        -->
+        <con1></con1>
+    </div>
+
+   
+    <script>
+        // 创建第一个组件  （对于这个文件，这是子组件）
+        const con1 = Vue.extend({
+            template:`
+                <div>
+                    <p>标题1</p>
+                    <span>第一个组件内容</span>    
+                </div>
+            `
+        })
+        // 创建第二个组件：父组件
+        const con2 = Vue.extend({
+            template:`
+                <div>
+                    <h2>标题2</h2>
+                    <p>我是第二个组件</p>    
+                    <span>在组件二中使用组件一</span>
+                    <con1></con1>
+                </div>
+            `,
+            components:{  //在组件中注册con1组件
+                con1:con1
+            }
+        })
+        // 实例可看做为一个组件，顶级的组件 ，被称为root组件（根组件）
+        let app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {},
+            components:{
+                con2:con2,
+                con1:con1 //如果注册，使用就不会报错，否则会报上述错误
+            }
+        })
+
+        
+    </script>
+</body>
+
+</html>

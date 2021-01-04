@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>props的驼峰注意事项</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 这么写，数据不会出来 ,页面显示{{cInfo}} -->
+        <!-- <cpn :cInfo="info"></cpn> -->
+        <!-- 这么写可以 -->
+        <cpn :c-info="info" :zoe-movies="movies"></cpn>
+    </div>
+
+    <template id="cpn">
+        <div>
+            <!-- {{cinfo}} 直接这么写，会报错：[Vue warn]: Error compiling template:
+    
+    text "{{cinfo}}" outside root element will be ignored. -->
+            <!-- 正确的是包个元素 -->
+            <span>
+                {{cInfo}}
+            </span>
+            <span>
+                {{zoeMovies}}
+            </span>
+        </div>
+    </template>
+
+
+    <script>
+        const cpn = {
+            template: '#cpn',
+            props: {
+                cInfo: {
+                    type: Object,
+                    detault() {
+                        return {}
+                    }
+                },
+                zoeMovies: {
+                    type: Array,
+                    default () {
+                        return []
+                    }
+                }
+            }
+        }
+        const app = new Vue({
+            el: '#app',
+            data: {
+                info: {
+                    name: 'yateng',
+                    age: 18,
+                    height: 1.53
+                },
+                movies: [
+                    '小兵', '橙子', '大苹果'
+                ]
+            },
+            components: {
+                cpn
+            }
+        })
+    </script>
+</body>
+
+</html>

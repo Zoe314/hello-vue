@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>父子组件通讯</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        父子传参，用props ，传值：
+        <!-- <cpn v-bind:cmovies="movies" :cmsg="msg"></cpn> -->
+        <!-- 没有传msg的值,会显示aaa ，因cmsg是必传项，不传会报错-->
+        <!-- <cpn v-bind:cmovies="movies"></cpn> -->
+        <!-- 没有传cmovies值 ，注意写法，在写对象或数组类型的值是，使用工厂函数返回默认值-->
+        <!-- <cpn :cmsg="msg"></cpn> -->
+        <cpn :cmovies="movies" :cmsg="msg"></cpn>
+    </div>
+
+    <template id="test">
+        <div>
+            <ul>
+                <li v-for="(item,index) in cmovies" :key="item">
+                    {{item}}
+                </li>
+            </ul>
+            <span>{{cmsg}}</span>
+        </div>
+    </template>
+    <script>
+        const cpn = {
+            template: '#test',
+            // 父子组件传参，使用props 
+            // 数组的形式，这么写，里面的每一项是变量。
+            // props: ['cmovies', 'cmsg'],
+            // 基础类型检查('null'匹配任何类型)
+            propA: Number,
+            // 多个可能得类型
+            propB: [Number, String],
+            // 必填的字符串
+            propC: {
+                type: String,
+                required: true
+            },
+            // 有默认值的数字
+            propD: {
+                type: Number,
+                default: 112
+            },
+            // 有默认值的帝乡：
+            propE: {
+                type: Object,
+                default: function () {
+                    // 对象或数组默认值必须从一个工厂函数中获取
+                    return {
+                        msg: 'hello'
+                    }
+                }
+            },
+            // 自定义验证函数
+            propF: {
+                validator: function (value) {
+                    //这个值必须匹配下列字符串中的一个
+                    return ['success', 'warning', 'danger'].indexOf(value) !== -1
+                }
+            },
+            // 对象形式
+            props: {
+                // 1、类型限制：
+                // cmovies:Array,
+                // cmsg:String
+
+                // 2、提供一些默认值,以及必传性
+                cmsg: {
+                    type: String,
+                    default: 'aaaaa',
+                    required: true
+                },
+                // 类型是对象或数组时，默认值必须是一个函数
+                cmovies: {
+                    type: Array,
+                    // default:[]  vue2.5.17版本，这种写法错误，应在一个工厂函数中返回默认值
+                    default () {
+                        return []
+                    }
+                }
+            },
+            data() {
+                return {
+                    title: 'hello'
+                }
+            },
+            methods: {
+
+            },
+
+        }
+        const app = new Vue({
+            el: '#app',
+            data: {
+                msg: '你好',
+                movies: ['大头儿子小头爸爸', '海绵宝宝', '哆啦A梦', '空中之城', '千与千寻']
+            },
+            components: { //在组件中注册con1组件
+                cpn
+            }
+        })
+
+
+        /*
+          验证类型：
+          支持的类型：String，Number，BOOlean，Array，Symbol，Object，Function，Date
+        */
+        //    如果有自定义构造函数，也支持验证自定义类型
+        function Person(firstName, lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+        Vue.component('diyType', {
+            props: {
+                author: Person
+            }
+        })
+    </script>
+</body>
+
+</html>

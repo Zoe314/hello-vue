@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-on事件绑定</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1、当事件绑定，不需要传参数时，方法后的()小括号可以省略不写 -->
+        <button @click="btn1Click">点击</button>
+
+        <!-- 当有参数时，不调用时不写，形参会被赋值为undefined -->
+        <button @click="btn2Click(11)">点击</button>
+
+        <!--
+             2、在事件定义时，写函数时省略了小括号，但方法本身是需要一个参数的，
+             这个时候，vue会默认将浏览器生成的event事件对象作为参数传入到方法中 
+        -->
+        <button @click="btn2Click">点击</button>
+
+        <!--3、定义方法时，我们需要event对象，同时需要其他参数 -->
+        <!-- 在调用方法时，如何手动获取浏览器参数的event事件对象？==> $event -->
+        <!-- 直接这么写，会将event当做第一个参数，第二个参数为undefined -->
+        <!-- <button @click="btn3Click">点击</button>   -->
+
+        <!-- 若像下方这么写，会报错vue.js:634
+             [Vue warn]: Property or method "event" 
+             is not defined on the instance but
+              referenced during render. Make sure
+               that this property is reactive,
+                either in the data option, or 
+                for class-based components, by 
+                initializing the property....) ，会以解析属性的方法来执行，会在实例中找event属性，找不到会报错，-->
+        <!-- <button @click="btn3Click(123,event)">点击</button>   -->
+
+        <!-- 若不加引号写abc，会去找属性，如果没有会报错，：
+            Property or method "abc" is not defined on the instance 
+            but referenced during render. Make sure that this property is reactive, 
+            either in the data option, 
+            or for class-based components, by initializing the property. 
+         -->
+        <!-- 所以里面要加引号或者在数据data中定义这个属性 -->
+        <button @click="btn3Click(abc,$event)">点击</button>
+
+        <!-- 1、stop修饰符的使用 -->
+        <div @click="divClick">
+            <h2>v-on的修饰符</h2>
+            <!-- 当点击下面按钮时，会同时触发divClick方法，因为事件冒泡 -->
+            <button @click="btnC">有冒泡事件</button>
+            <!-- 如果想组织冒泡，只需写个.stop -->
+            <button @click.stop="btnC">取消冒泡的btn</button>
+        </div>
+        <br>
+        <!-- 2、prevent修饰符的使用 -->
+        <form action="baidu">
+            <!-- 会自动提交，触发默认事件 -->
+            <input type="submit" @click="submit" value="提交">
+            <!-- 若不想自动，可以使用prevent,就可以看到打印的值并且自己去写请求数据 -->
+            <input type="submit" @click.prevent="submit" value="提交">
+        </form>
+        <br>
+        <!-- 3、keyCode | keyAlias 特定值才会触发 ，监听某个键盘的键帽 v-on:keyup-->
+        <input type="text" @keyup="keyup">
+        <!-- 监听enter键的键盘抬起事件 -->
+        <input type="text" @keyup.enter="keyup">
+        <br>
+        <!-- 4、.native 监听组件根元素的原生事件 -->
+        <!-- 直接这么写不能监听 -->
+        <!-- <cpn @click="cpnClick"></cpn> -->
+        <!-- 这个可以监听到 -->
+        <!-- <cpn @click.native="cpnClick"></cpn> -->
+
+        <br>
+        <!-- 5、.once 只触发一次 -->
+        <button @click="onceClick">触发多次的按钮</button>
+        <button @click.once="onceClick">只触发一次的按钮</button>
+    </div>
+
+    <script>
+        // 方法调用多次时，会执行多次
+        // 但计算属性有缓存，计算属性相关的值若不发生改变，计算属性只会执行一次，如果修改值的话，也是只执行一次。
+        const app = new Vue({
+            el: '#app',
+            data: {
+                abc: 'aaa'
+            },
+            methods: {
+                btn1Click() {
+                    console.log('第一个按钮点击了');
+                },
+                btn2Click(a) {
+                    console.log('-----', a);
+                },
+                btn3Click(abc, event) {
+                    console.log('要event也要其他参数的值', abc, event);
+                },
+                // v-on的修饰符使用
+                divClick() {
+                    console.log('divClick')
+                },
+                btnC() {
+                    console.log('btnc');
+                },
+                // submit
+                submit() {
+                    console.log('submit了')
+                },
+                keyup() {
+                    console.log('keyup')
+                },
+                cpnClick() {
+                    console.log('cpnClick')
+                },
+                // 只触发一次的事件
+                onceClick() {
+                    console.log('onceClick')
+                }
+            }
+        })
+
+        // 如果函数需要参数，但是没有传入，那么函数的形参为undefined
+        // function abc(name){
+        //     console.log(name);
+        // }
+        // abc();
+
+
+    </script>
+</body>
+
+</html>

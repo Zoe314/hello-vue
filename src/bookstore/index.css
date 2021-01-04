@@ -1,0 +1,12 @@
+table{
+    border: 1px solid #ccc;
+}
+
+thead,th,td{
+    border: 1px solid #ededed;
+    margin: 15px;
+    text-align: center;
+}
+td{
+    width: 200px;
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作用域-var与let的区别</title>
+</head>
+
+<body>
+    <div>
+        <!-- <span>
+            When I am down and, oh my soul, so weary.
+            当我失意低落之时 ，我的精神，是那么疲倦不堪
+            When troubles come and my heart burdened be.
+            当烦恼困难袭来之际， 我的内心，是那么负担沉重
+            Then I am still and wait here in the silence,
+            然而，我默默的伫立，静静的等待
+            Until you come and sit awhile with me.
+            直到你的来临，片刻地和我在一起
+            You raise me up, so I can stand on mountains;
+            你激励了我，故我能立足于群山之巅
+            You raise me up, to walk on stormy seas;
+            你鼓舞了我，故我能行进于暴风雨的洋面
+            I am strong, when I am on your shoulders;
+            在你坚实的臂膀上，我变得坚韧强壮
+            You raise me up, to more than I can be.
+            你的鼓励，使我超越了自我
+            You raise me up, so I can stand on mountains;
+            你激励了我，故我能立足于群山之巅
+            You raise me up, to walk on stormy seas.
+            你鼓舞了我，故我能行进于暴风雨的洋面
+            I am strong, when I am on your shoulders;
+            在你坚实的臂膀上，我变得坚韧强壮
+            You raise me up, to more than I can be.
+            你的鼓励，使我超越了自我
+            You raise me up, so I can stand on mountains;
+            你激励了我，故我能立足于群山之巅
+            You raise me up, to walk on stormy seas;
+            你鼓舞了我，故我能行进于暴风雨的洋面
+            I am strong, when I am on your shoulders;
+            在你坚实的臂膀上，我变得坚韧强壮
+            You raise me up, to more than I can be.
+            你的鼓励，使我超越了自我
+            You raise me up, so I can stand on mountains;
+            你激励了我，故我能立足于群山之巅
+            You raise me up, to walk on stormy seas;
+            你鼓舞了我，故我能行进于暴风雨的洋面
+            I am strong, when I am on your shoulders;
+            在你坚实的臂膀上，我变得坚韧强壮
+            You raise me up, to more than I can be.
+            你的鼓励，使我超越了自我
+            You raise me up, to more than I can be.
+            你的鼓励，使我超越了自我
+        </span> -->
+
+        <button>点击一下</button>
+        <button>点击一下</button>
+        <button>点击一下</button>
+        <button>点击一下</button>
+        <button>点击一下</button>
+        <button>点击一下</button>
+    </div>
+    <script>
+        // ES5中的var是没有块级作用域的。（if/for）
+        // ES6中的let是有块级作用域的（if/for）
+        // 在ES5之前，if和for都没有块级作用域的概念，所以很多时候，我们都必须借助于function作用域来解决应用外面变量的问题。
+        // 在ES6中，加入了let，它有if和for块级作用域。
+
+        // 1、变量作用域 变量在什么范围内可用
+        // {
+        //     var name = 'aaa';
+        //     console.log(name); //aaa
+        // }
+        // console.log(name);   //aaa
+
+        // 2、没有块级作用域带来的问题,if的块级作用域（if无块级作用域），若暴露给别人，本来想打印的值可能会被修改
+        // var func;
+        // if (true) {
+        //     var a = 'why';
+        //     func = function () {
+        //         console.log(a);   
+        //     }
+        //     // func()  在这里可以执行，打印why
+        // }
+        // a='修改了值的a';
+        // func();   //在这里打印，打印之前值呗修改了，原本想打印'why',但打印出来是修改了值的a
+
+        // 一个作用域的小例子：
+        var test = 'why';
+        function abc(test) {
+            //这里的test是有函数作用域的，优先使用自己的，
+            //调用函数abc,传值，里面的test,通过参数赋值，test='aaaa',
+            //与外部的test赋值('test')没有关系，尽管修改了还是会打印aaaa
+            console.log(test);
+        }
+        test = 'test';
+        abc('aaaa');
+
+
+        // 3.没有块级作用域带来的问题，for的作用域  for里面没有块级
+        // 之前的方式：
+        /*var btns = document.getElementsByTagName('button');
+         for (var i = 0; i < btns.length; i++) {
+             //     btns[i].onclick=function(){
+             //在function函数里，想用的i是外部的，想外面是0.里面也传0，但是在函数调用之前，i的值一直在更改，所以最后是6
+             //         console.log('点击了'+i+'按钮'); 
+             //     }
+             // 之前的做法中会使用闭包，闭包可以解决的原因是：因函数是一个作用域
+             (function (num) {   //形参，传入的i,在里面不能被被人修改
+                 btns[i].onclick = function () {
+                     console.log('点击了' + num + '按钮');  //会出来这个值：点击了6按钮
+                 }
+             })(i)  //将i当做入参传入，就可以得到想要的值，因为函数有作用域
+             // 相当于如下代码执行，共执行6次，当外面勋魂中的i，改变，里面的mun也改变：           
+            // var i = 0;
+            // 因为没有作用域，在哪里都一样，里面执行的时候，用的都是外部引用的i,外面的i一直改变，打印的值为i最后的值
+             // function () { //num=0
+                    // var i = 0;  //es5在里面定义的i，相当于在外面定义，
+             //     console.log('点击了' + num + '按钮');  //会出来这个值：点击了6按钮
+             // }
+             // function () { //num=1
+             //     console.log('点击了' + num + '按钮');  //会出来这个值：点击了6按钮
+             // }
+             // function () { //num=2
+             //     console.log('点击了' + num + '按钮');  //会出来这个值：点击了6按钮
+             // }
+             // function () { //num=3
+             //     console.log('点击了' + num + '按钮');  //会出来这个值：点击了6按钮
+             // }
+             // function () { //num=4
+             //     console.log('点击了' + num + '按钮');  //会出来这个值：点击了6按钮
+             // }
+             // function () { //num=5
+             //     console.log('点击了' + num + '按钮');  //会出来这个值：点击了6按钮
+             // }
+         }
+        */
+        // ES6的做法：
+        const btns = document.getElementsByTagName('button');
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].addEventListener('click', function () {
+                console.log('第' + i + '按钮点击了');
+            })
+        }
+        // 因为let具有块级作用域，所以以上代码，执行时为：每一个都会有自己的i,外面虽改变了，但不影响里面的值
+        // 所以就不会出现之前直接打印6的值，而是，传什么，打印什么值
+        // {   // i = 0
+        //     btns[i].addEventListener('click', function () {
+        //         console.log('第' + i + '按钮点击了');
+        //     })
+        // }
+        // { // i = 1
+        //     btns[i].addEventListener('click', function () {
+        //         console.log('第' + i + '按钮点击了');
+        //     })
+        // }
+        // { // i = 2
+        //     btns[i].addEventListener('click', function () {
+        //         console.log('第' + i + '按钮点击了');
+        //     })
+        // }
+        // { // i = 3
+        //     btns[i].addEventListener('click', function () {
+        //         console.log('第' + i + '按钮点击了');
+        //     })
+        // }
+        // { // i = 4
+        //     btns[i].addEventListener('click', function () {
+        //         console.log('第' + i + '按钮点击了');
+        //     })
+        // }
+        // { // i = 5
+        //     btns[i].addEventListener('click', function () {
+        //         console.log('第' + i + '按钮点击了');
+        //     })
+        // }
+
+
+        // const 作用是讲某个变量修饰为常量:
+
+        // 注意1.一旦给const修饰的标识符赋值后，就不能修改，否则就会报错。
+        // const n = 'zhangsan';
+        // n='lisi';  //zuoyongyu.html:180 Uncaught TypeError: Assignment to constant variable.
+
+        // 注意2.在使用const定义标识符必须进行赋值
+        //const c ;   //Uncaught SyntaxError: Missing initializer in const declaration
+        
+        // 注意3.常量的含义是指向的对象不能修改，但是可以修改对象内部的属性。
+        const obj = {
+            name: 'lala',
+            age: 20,
+            height: 1.6
+        }
+        console.log(obj);
+        obj.name = 'zozo';
+        obj.age = 18;
+        obj.height = 1.7;
+        console.log(obj);
+
+        
+        // 在ES6开发中，优先使用const,只有需要改变某一个标识符的时候才使用let。
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue条件指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <span>
+            v-if 后面写布尔值，为true，会显示相应元素或组件，为false不显示元素或组件；
+            v-else-if 会显示符合条件的元素或组件；
+            v-else 当不符合if else-if的情况下回显示v-else的元素或组件。
+        </span>
+        <h1 v-if="score>=90">成绩>90为优秀</h1>
+        <h1 v-else-if="score>=80">成绩>=80为良好</h1>
+        <h1 v-else-if="score>=60">成绩>=60为及格</h1>
+        <h1 v-else>成绩<60 为不及格</h1>
+        <hr>
+        <!-- 当上方的判断过多时，如果是简单的显示文本，可以使用计算属性 -->
+        <h1>使用计算属性结果：=== {{level}}</h1>
+    </div>
+
+    <script>
+        // 方法调用多次时，会执行多次
+        // 但计算属性有缓存，计算属性相关的值若不发生改变，计算属性只会执行一次，如果修改值的话，也是只执行一次。
+        const app = new Vue({
+            el: '#app',
+            data: {
+                score: '99'
+            },
+            computed: {
+                level() {
+                    let level = '';
+                    if (this.score >= 90) {
+                        level = '优秀';
+                    } else if (this.score >= 80) {
+                        level = '良好';
+                    } else if (this.score >= 60) {
+                        level = '及格';
+                    } else {
+                        level = '不及格';
+                    }
+                    return level;
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
