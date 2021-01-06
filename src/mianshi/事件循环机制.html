@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件循环的执行</title>
+</head>
+
+<body>
+    <div>我是事件循环</div>
+    <script>
+         
+        // JavaScript 是一门单线程语言，异步操作都是放到事件循环队列里面，
+        // 等待主执行栈来执行的，并没有专门的异步执行线程。
+        // 所以最后输出结果：
+        // start,promise,promise after for-loop,promise after timeout,end,promise1,promise3,promise2,
+        // intervalA,timeout,intervalC,promise in timeout,promise4,promise5
+        console.log('start');  //直接执行，start
+
+        var intervalA = setInterval(() => {  //遇到定时器，放到宏任务中。为task1
+            console.log('intervalA');
+        }, 0);
+
+        setTimeout(() => {   //  定时器放到宏任务中，为task2
+            console.log('timeout');
+
+            clearInterval(intervalA);
+        }, 0);
+
+        var intervalB = setInterval(() => {  //  task3
+            console.log('intervalB');
+        }, 0);
+
+        var intervalC = setInterval(() => {  // task4
+            console.log('intervalC');
+        }, 0);
+
+        new Promise((resolve, reject) => {
+            console.log('promise');    //  遇到Promist,直接执行 new promise 代码，输出promise
+
+            for (var i = 0; i < 10000; ++i) {   
+                i === 9999 && resolve();   
+            }
+
+            console.log('promise after for-loop');    //遍历完直接执行，输出promise after for-loop
+        }).then(() => {      //  遇到then，放到微任务中，为then1
+            console.log('promise1');
+        }).then(() => {    // 微任务 then3
+            console.log('promise2');
+
+            clearInterval(intervalB);
+        });
+
+        new Promise((resolve, reject) => {  //直接执行
+            setTimeout(() => {   // task5
+                console.log('promise in timeout');
+                resolve();
+            });
+
+            console.log('promise after timeout');   //执行，输出promise after timeout
+        }).then(() => {  // 微任务 then4
+            console.log('promise4');
+        }).then(() => {   //微任务：then5
+            console.log('promise5');
+
+            clearInterval(intervalC);
+        });
+
+        Promise.resolve().then(() => {  //  遇到then,为then2
+            console.log('promise3');
+        });
+        console.log('end');   //直接输出 end
+
+       
+/*
+事件循环机制.html:13 start
+事件循环机制.html:34 promise
+事件循环机制.html:40 promise after for-loop
+事件循环机制.html:55 promise after timeout
+事件循环机制.html:67 end
+事件循环机制.html:42 promise1
+事件循环机制.html:65 promise3
+事件循环机制.html:44 promise2
+事件循环机制.html:16 intervalA
+事件循环机制.html:20 timeout
+事件循环机制.html:30 intervalC
+事件循环机制.html:51 promise in timeout
+事件循环机制.html:57 promise4
+事件循环机制.html:59 promise5
+*/
+
+
+    </script>
+</body>
+
+</html>
