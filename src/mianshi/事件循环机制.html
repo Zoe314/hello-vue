@@ -9,6 +9,8 @@
 
 <body>
     <div>我是事件循环</div>
+    <h2>从规范来看，microtask 优先于 task 执行，所以如果有需要优先执行的逻辑，
+        放入microtask 队列会比 task 更早的被执行。</h2>
     <script>
          
         // JavaScript 是一门单线程语言，异步操作都是放到事件循环队列里面，
