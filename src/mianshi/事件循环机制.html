@@ -121,28 +121,28 @@
             并且当await执行完毕之后，会先处理微任务队列的代码
         */
         async function async1() {
-            console.log('async1 start')  //4  2
+            console.log('async1 start') //4  2
             await async2()
-            console.log('async1 end')  //6  
+            console.log('async1 end') //6  
         }
         async function async2() {
-            console.log('async2')  // 5    3
+            console.log('async2') // 5    3
         }
-        console.log('script start')   //1
+        console.log('script start') //1
         setTimeout(function () {
-            console.log('setTimeout')  //8
+            console.log('setTimeout') //8
         }, 0)
         async1();
         new Promise(function (resolve) {
-            console.log('promise1')  //2  4
+            console.log('promise1') //2  4
             resolve();
         }).then(function () {
-            console.log('promise2')  //7
+            console.log('promise2') //7
         })
-        console.log('script end')  //3   5
+        console.log('script end') //3   5
 
         // 以上代码执行过程：
-        使用事件循环机制分析:
+        // 使用事件循环机制分析:
 
         // 首先执行同步代码，console.log( 'script start' )
         // 遇到setTimeout,会被推入宏任务队列
@@ -155,7 +155,6 @@
         // 外部同步代码执行完毕，接着回到async1()内部, 由于async2()其实是返回一个Promise, await async2()相当于获取它的值，其实就相当于这段代码Promise.resolve(undefined).then((undefined) => {}),所以.then会被推入微任务队列, 所以现在微任务队列会有两个任务。接下来处理微任务队列，打印console.log( 'promise2' )，后面一个.then不会有任何打印，但是会执行
         // 执行后面的代码, 打印console.log( 'async1 end' )
         // 进入第二次事件循环，执行宏任务队列, 打印console.log( 'setTimeout' )
-        
     </script>
 </body>
 
