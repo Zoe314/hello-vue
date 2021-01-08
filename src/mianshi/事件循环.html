@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js 事件循环</title>
+</head>
+
+<body>
+    <div>
+        <h2>
+            结果：1，7，6，8，2，4，3，5，9，11，10，12
+        </h2>
+        <p>
+            process.nextTick位置优先于promist.then，它相当于node.js中的then事件。
+            所以会先输出process.nextTick的输出，在输出then.
+             并且一个宏任务结束后才会进行下个宏任务。
+            即第一个setTimeout执行完，才会执行下个setTimeout宏任务。 
+        </p>
+    </div>
+    <script src="./shijian.js"></script>
+</body>
+
+</html>
